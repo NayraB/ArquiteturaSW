@@ -17,8 +17,18 @@ namespace JogosDeGuerraWebAPI.Controllers
         // GET: BatalhasMVC
         public ActionResult Index()
         {
-            var batalhas = db.Batalhas.Include(b => b.ExercitoBranco).Include(b => b.ExercitoPreto).Include(b => b.Tabuleiro).Include(b => b.Turno).Include(b => b.Vencedor);
-            return View(batalhas.ToList());
+            var batalhas = 
+                db.Batalhas
+                .Include(b => b.ExercitoBranco)
+                .Include(b => b.ExercitoBranco.Usuario)
+                .Include(b => b.ExercitoPreto)
+                .Include(b => b.ExercitoPreto.Usuario)
+                .Include(b => b.Tabuleiro)
+                .Include(b => b.Turno)
+                .Include(b => b.Turno.Usuario)
+                .Include(b => b.Vencedor)
+                .ToList();
+            return View(batalhas);
         }
 
         // GET: BatalhasMVC/Details/5
