@@ -46,6 +46,13 @@ namespace JogosDeGuerraWebAPI.Controllers
             return View(batalha);
         }
 
+        public ActionResult Iniciar(int id)
+        {
+            var batalhaController = new BatalhasController();
+            var batalha = batalhaController.IniciarBatalha(id);
+//            Redire
+        }
+
         // GET: BatalhasMVC/Create
         public ActionResult Create()
         {
