@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JogosDeGuerra
+namespace JogosDeGuerraModel
 {
-    public class FactoryExercitoIndiano : AbstractFactoryExercito
+    class FactoryExercitoIndiano : AbstractFactoryExercito
     {
         public override Arqueiro CriarArqueiro()
         {
             return new ArqueiroIndiano();
         }
 
-        public override Cavalaria CriarCavalaria()
+        public override Cavaleiro CriarCavalaria()
         {
-            return new CavalariaIndiana();
+            return new CavaleiroIndiana();
         }
 
         public override Guerreiro CriarGuerreiro()
