@@ -43,7 +43,6 @@ namespace JogosDeGuerraWebAPI.Controllers
             {
                 return HttpNotFound();
             }
-
             return View(batalha);
         }
 
