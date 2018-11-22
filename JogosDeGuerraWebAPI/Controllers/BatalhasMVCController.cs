@@ -50,7 +50,10 @@ namespace JogosDeGuerraWebAPI.Controllers
         {
             var batalhaController = new BatalhasController();
             var batalha = batalhaController.IniciarBatalha(id);
-//            Redire
+            // só para compilar
+            // TODO: consertar esse trecho
+            return View(batalha);
+            //            Redire
         }
 
         // GET: BatalhasMVC/Create
