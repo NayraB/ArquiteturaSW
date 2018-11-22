@@ -50,7 +50,14 @@ namespace JogosDeGuerraWebAPI.Controllers
         {
             var batalhaController = new BatalhasController();
             var batalha = batalhaController.IniciarBatalha(id);
-//            Redire
+            //TODO: verificar se é a tela correta
+            return View();
+        }
+
+        public ActionResult Tabuleiro(int id)
+        {
+            var batalha = db.Batalhas.Find(id);
+            return View(batalha);
         }
 
         // GET: BatalhasMVC/Create
@@ -161,5 +168,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
     }
 }

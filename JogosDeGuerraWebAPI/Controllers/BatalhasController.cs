@@ -34,8 +34,42 @@ namespace JogosDeGuerraWebAPI.Controllers
         }
 
         // GET: api/Batalhas/5
+        [Route("Busca")]
+        [HttpGet]
         public Batalha Get(int id)
         {           
+            return ctx.Batalhas.Find(id);
+        }
+
+        [Route("VerificaUsuarioEmBatalha")]
+        [HttpGet]
+        public Boolean JogadorLogadoParticipaBatalha(int id)
+        {
+            var usuario = Utils.Utils.ObterUsuarioLogado(ctx);
+            var batalha = this.ctx.Batalhas.Find(id);
+            if(batalha.ExercitoBranco != null &&
+               batalha.ExercitoPreto != null &&
+                (batalha.ExercitoBranco.UsuarioId == usuario.Id || 
+                 batalha.ExercitoPreto.UsuarioId == usuario.Id)
+                )
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        public Boolean VerificaDoisJogadores(int idBatalha)
+        {
+            var batalha = this.ctx.Batalhas.Find(idBatalha);
+            return batalha.ExercitoBranco != null && batalha.ExercitoPreto != null;
+        }
+
+        [Route("Busca")]
+        [HttpGet]
+        public Batalha asd(int id)
+        {
             return ctx.Batalhas.Find(id);
         }
 

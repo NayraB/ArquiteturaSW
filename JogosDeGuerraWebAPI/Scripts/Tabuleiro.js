@@ -17,12 +17,14 @@ $(function () {
     var elementos = null;
     //1 CriarNovaBatalha, 2 RetomarBatalha
     var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=2";
+    
 
     var token = sessionStorage.getItem("accessToken");
     var headers = {};
     if (token) {
         headers.Authorization = token;
     }
+
     $.ajax({
         type: 'GET',
         url: urlIniciarBatalha,
@@ -35,6 +37,78 @@ $(function () {
         function (jqXHR, textStatus) {
             alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
      });
+
+    function verificarSejogadorestaNaBatalha(batalha) {
+        if (batalha) {
+            if (batalha.ExercitoBranco) {
+                if (batalha.ExercitoBranco.Usuario.Email == sessionStorage.getItem("EmailUsuario")) {
+                    return true;
+                }
+            }
+            if (batalha.ExercitoPreto) {
+                if (batalha.ExercitoPreto.Usuario.Email == sessionStorage.getItem("EmailUsuario")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function ObterbatalhaId(idBatalha) {
+        $.ajax({
+            type: 'GET',
+            url: urlIniciarBatalha,
+            headers: headers
+        }
+        ).done(function (data) {
+            if (!verificarSejogadorestaNaBatalha(data)) {
+                if (BatalhaTemDoisJogadores(data)) {
+                    VisualizarBatalha(data);
+                } else {
+                    PerguntarUsuario(data);
+                }
+            } else {
+                if (BatalhaTemDoisJogadores(data)) {
+                    Jogar(data);
+                } else {
+                    AvisarJogador();
+                }
+            }
+        }
+        ).fail(
+            function (jqXHR, textStatus) {
+                alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
+            });   
+    }
+
+    function BatalhaTemDoisJogadores(batalha) {
+        return batalha.ExercitoBranco != null && batalha.ExercitoPreto != null;
+    }
+
+    function PerguntarUsuario(batalha) {
+
+    }
+
+    function realizaRequisicao(url) {
+        var token = sessionStorage.getItem("accessToken");
+        var headers = {};
+        if (token) {
+            headers.Authorization = token;
+        }
+        $.ajax({
+            type: 'GET',
+            url: url,
+            headers: headers
+        }
+        ).done(function (data) {
+            return data;
+        }
+        ).fail(
+            function (jqXHR, textStatus) {
+                alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
+                return null;
+            });
+    }
 
     function MontarTabuleiro(batalhaParam) {
         pecasNoTabuleiro = [];
