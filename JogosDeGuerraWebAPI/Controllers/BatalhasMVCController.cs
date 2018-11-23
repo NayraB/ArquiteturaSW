@@ -51,7 +51,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             var batalhaController = new BatalhasController();
             var batalha = batalhaController.IniciarBatalha(id);
             //TODO: verificar se é a tela correta
-            return View();
+            return RedirectToAction("Tabuleiro", new { id = id });
         }
 
         public ActionResult Tabuleiro(int id)

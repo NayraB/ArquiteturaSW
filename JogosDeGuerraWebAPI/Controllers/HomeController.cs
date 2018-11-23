@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JogosDeGuerraModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -60,5 +61,14 @@ namespace JogosDeGuerraWebAPI.Controllers
             return View();
         }
 
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        public ActionResult Batalhas()
+        {
+            return View();
+        }
     }
 }

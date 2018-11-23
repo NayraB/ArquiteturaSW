@@ -1,6 +1,5 @@
-﻿
-@{
-    ViewBag.Title = "Login";
+﻿@{
+    ViewBag.Title = "Register";
 }
 <div class="container centered">
     <div class="row">
@@ -20,11 +19,13 @@
                         <div class="form-label-group">
                             <input type="password" id="loginPassword" class="form-control" placeholder="Password" required>
                             <label for="loginPassword" style="text-align:left">Password</label>
-                        </div>                       
+                        </div>
+                        <div class="form-label-group">
+                            <input type="password" id="loginConfirmPassword" class="form-control" placeholder="ConfirmPassword" required>
+                            <label for="loginConfirmPassword" style="text-align:left">Password</label>
+                        </div>
                         <div>
-                            <button onclick="login()" class="btn btn-lg btn-primary btn-block text-uppercase" type="button">Sign in</button>
-                            <button onclick="logout()" class="btn btn-default btn-block text-uppercase">Log Out</button>
-                            <button onclick="register()" class="btn btn-default btn-block text-uppercase">Register</button>
+                            <button onclick="register()" class="btn btn-lg btn-primary btn-block text-uppercase" type="button">Register</button>
                         </div>
                     </form>
                 </div>
@@ -39,7 +40,6 @@
 
         alert("Olá Erro!");
         var response = jqXHR.responseJSON;
-        console.log(response);
         if (response) {
             if (response.Message) self.errors.push(response.Message);
             if (response.ModelState) {
@@ -58,28 +58,28 @@
         }
     }
 
-    
-    function login() {
+
+    function register() {
         var baseUrl =
             window.location.protocol +
             "//" +
             window.location.hostname +
             (window.location.port ? ':' + window.location.port : '');
-        var loginData = {
-            grant_type: 'password',
-            username: document.getElementById("loginEmail").value,
-            password: document.getElementById("loginPassword").value
+        var registerData = {
+            Email: document.getElementById("loginEmail").value,
+            Password: document.getElementById("loginPassword").value,
+            ConfirmPassword: document.getElementById("loginConfirmPassword").value
         };
-        $.ajax({
+        var body = {
             type: 'POST',
-            url: baseUrl +'/Token',
-            data: loginData
-        }).done(function (data) {
-            // Cache the access token in session storage.
-            sessionStorage.setItem('accessToken', data.token_type + " " + data.access_token);
-            sessionStorage.setItem('emailUsuario', data.userName);
-            window.location.href = baseUrl + "/BatalhasMVC/Index";
+            url: baseUrl + '/api/Account/Register',
+            data: registerData
+        };
+        console.log(body);
+        $.ajax(body).done(function (data) {
+            alert("Registrado com Sucesso!");
+            window.location.href = baseUrl + "/Home/Login";
         }).fail(showError);
     }
-</script>
+    </script>
 }

@@ -15,16 +15,14 @@ $(function () {
     var pecaSelecionadaObj = null;
     var pecaElem = null;
     var elementos = null;
-    //1 CriarNovaBatalha, 2 RetomarBatalha
-    var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=2";
-    
-
     var token = sessionStorage.getItem("accessToken");
     var headers = {};
     if (token) {
         headers.Authorization = token;
     }
-
+    var idBatalha = window.location.href.split('/')[window.location.href.split('/').length - 1];
+    var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=" + idBatalha;
+    //1 CriarNovaBatalha, 2 RetomarBatalha
     $.ajax({
         type: 'GET',
         url: urlIniciarBatalha,
@@ -117,6 +115,7 @@ $(function () {
         var ExercitoBrancoId = batalha.ExercitoBrancoId;
         var ExercitoPretoId = batalha.ExercitoPretoId;
         var i;
+        console.log(pecas);
         for (i = 0; i < batalha.Tabuleiro.Altura; i++) {
             $("#tabuleiro").append("<div id='linha_" + i.toString() + "' class='linha' >");
             pecasNoTabuleiro[i] = [];
@@ -128,8 +127,22 @@ $(function () {
                 for (x = 0; x < pecas.length; x++) {
                     if (pecas[x].posicao.Largura == i && pecas[x].posicao.Altura == j){
                         pecasNoTabuleiro[i][j] = pecas[x];                    
-                        if (pecas[x].ExercitoId==ExercitoBrancoId) {
-                            $("#" + nome_casa).append("<img src='https://www.w3schools.com/images/compatible_firefox.gif' class='peca' id='" + nome_casa.replace("casa", "peca_preta") + "'/>");
+                        if (pecas[x].ExercitoId == ExercitoBrancoId) {
+                            var img;
+                            if (pecas[x].Ataque == 45 && pecas[x].AlcanceMovimento == 1 && pecas[x].AlcanceAtaque == 1 && pecas[x].Saude == 150) {
+                                //Guerreiro
+                                img = "https://images.vexels.com/media/users/3/127091/isolated/preview/30741a210f3e6e7f67002ccdcd3e920b-axes-camping-kit-icon-by-vexels.png";
+                            } else if (pecas[x].Ataque == 25 && pecas[x].AlcanceMovimento == 3 && pecas[x].AlcanceAtaque == 1 && pecas[x].Saude == 100) {
+                                //Cavalaria
+                                img = "http://www.clker.com/cliparts/S/t/h/N/9/9/mustang-maroongold4print-md.png";
+                            } else if (pecas[x].Ataque == 10 && pecas[x].AlcanceMovimento == 1 && pecas[x].AlcanceAtaque == 3 && pecas[x].Saude == 75) {
+                                //Aruqueiro
+                                img = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/H%C3%A9raldique_meuble_Arc_et_fl%C3%A8che.svg/1172px-H%C3%A9raldique_meuble_Arc_et_fl%C3%A8che.svg.png";
+                            } else {
+                                //Padrão
+                                img = "https://www.w3schools.com/images/compatible_firefox.gif";
+                            }
+                            $("#" + nome_casa).append("<img src='" + img +"' class='peca' id='" + nome_casa.replace("casa", "peca_preta") + "'/>");
                         }
                         else if (pecas[x].ExercitoId == ExercitoPretoId) {
                             $("#" + nome_casa).append("<img src='https://www.w3schools.com/images/compatible_safari.gif' class='peca' id='" + nome_casa.replace("casa", "peca_branca") + "'/>");
