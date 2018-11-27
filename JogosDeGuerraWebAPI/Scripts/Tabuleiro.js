@@ -88,6 +88,32 @@ $(function () {
         //TODO: vizualizar batalha
     }
 
+    function inicializaDialog() {
+        
+        
+    }
+
+    function AvisarJogador() {
+        $(function () {
+            $("#dialogAguardaJogador").dialog({
+                bgiframe: true,
+                autoOpen: false,
+                modal: true,
+                show: "blind",
+                hide: "blind",
+                title: "Aguarde...",
+                buttons: [{
+                    text: "Voltar",
+                    icon: "ui-icon-arrowreturnthick-1-w",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }]
+            });
+        });
+        $("#dialogAguardaJogador").dialog("open");
+    }
+    
     //icones jQuery
     //https://api.jqueryui.com/theming/icons/
     function PerguntarUsuario(batalha) {
@@ -118,31 +144,10 @@ $(function () {
         });
         $("#dialogDesejaEntrar").dialog("open");
     }
-
-    function AvisarJogador() {
-        $(function () {
-            $("#dialogAguardaJogador").dialog({
-                bgiframe: true,
-                autoOpen: false,
-                modal: true,
-                show: "blind",
-                hide: "blind",
-                title: "Aguarde...",
-                buttons: [{
-                    text: "Voltar",
-                    icon: "ui-icon-arrowreturnthick-1-w",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                }]
-            });
-        });
-        $("#dialogAguardaJogador").dialog("open");
-    }
-    
     
     function MontarTabuleiro(batalhaParam) {
 
+        //inicializaDialog();
         //AvisarJogador();
         //PerguntarUsuario();
 
@@ -162,8 +167,8 @@ $(function () {
                 $("#linha_" + i.toString()).append("<div id='" + nome_casa + "' class='casa " + classe + "' />");
    
                 for (x = 0; x < pecas.length; x++) {
-                    if (pecas[x].posicao.Largura == i && pecas[x].posicao.Altura == j){
-                        pecasNoTabuleiro[i][j] = pecas[x];                    
+                    if (pecas[x].posicao.Altura == i && pecas[x].posicao.Largura == j){
+                        pecasNoTabuleiro[i][j] = pecas[x];
                         if (pecas[x].ExercitoId == ExercitoBrancoId) {
                             var img;
                             if (pecas[x].Ataque == 45 && pecas[x].AlcanceMovimento == 1 && pecas[x].AlcanceAtaque == 1 && pecas[x].Saude == 150) {
@@ -278,11 +283,11 @@ $(function () {
                 headers: headers,
                 data: movimento
             })
-                .done(
-                function () {
-                    MoverPeca(posAntiga, posNova, peca)
-                }
-                )
+                .done(function(batalha){
+                    console.log("done")
+                    console.log(data)
+                    //MoverPeca(posAntiga, posNova, peca)
+                })
                 .fail(
                 function (jqXHR, textStatus) {
                     alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);

@@ -168,6 +168,10 @@ namespace JogosDeGuerraWebAPI.Controllers
                         };
                         throw new HttpResponseException(resp);
                     }
+                    batalha.Turno = null;
+                    batalha.TurnoId = batalha.TurnoId == batalha.ExercitoBrancoId ?
+                        batalha.ExercitoPretoId : batalha.ExercitoBrancoId;
+                    ctx.SaveChanges();
                     return batalha;
                 }
                 else
