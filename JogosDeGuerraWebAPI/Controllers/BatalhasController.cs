@@ -99,7 +99,8 @@ namespace JogosDeGuerraWebAPI.Controllers
                 throw new HttpResponseException(resp);
             }
                         
-            if (batalha.Tabuleiro == null){
+            if (batalha.Tabuleiro == null)
+            {
                 batalha.Tabuleiro = new Tabuleiro();
                 batalha.Tabuleiro.Altura = 8;
                 batalha.Tabuleiro.Largura = 8;
@@ -109,9 +110,10 @@ namespace JogosDeGuerraWebAPI.Controllers
             {
                 batalha.Tabuleiro.IniciarJogo(batalha.ExercitoBranco, batalha.ExercitoPreto);
                 Random r = new Random();
-                batalha.Turno = r.Next(100) < 50 
+                batalha.Turno = r.Next(100) < 50
                     ? batalha.ExercitoPreto : 
                     batalha.ExercitoBranco;
+                //batalha.Estado = Batalha.EstadoBatalhaEnum.Iniciado;
             }
             ctx.SaveChanges();
             return batalha;

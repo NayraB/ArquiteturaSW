@@ -265,9 +265,12 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Images\arch.png" />
-    <Content Include="Images\horse.jpg" />
-    <Content Include="Images\axes.png" />
+    <Content Include="Images\axes-black.png" />
+    <Content Include="Images\axes-white.png" />
+    <Content Include="Images\bow-black.png" />
+    <Content Include="Images\bow-white.png" />
+    <Content Include="Images\horse-black.png" />
+    <Content Include="Images\horse-white.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

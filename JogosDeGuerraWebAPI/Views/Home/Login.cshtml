@@ -35,6 +35,7 @@
 @Styles.Render("~/Content/Login.css")
 @section MeusScripts{
 <script type="text/javascript">
+    $("#email").text(sessionStorage.getItem("emailUsuario"));
     function showError(jqXHR) {
 
         alert("Olá Erro!");
@@ -58,7 +59,6 @@
         }
     }
 
-    
     function login() {
         var baseUrl =
             window.location.protocol +
@@ -78,6 +78,7 @@
             // Cache the access token in session storage.
             sessionStorage.setItem('accessToken', data.token_type + " " + data.access_token);
             sessionStorage.setItem('emailUsuario', data.userName);
+            $("#email").text(sessionStorage.getItem("emailUsuario"));
             window.location.href = baseUrl + "/BatalhasMVC/Index";
         }).fail(showError);
     }

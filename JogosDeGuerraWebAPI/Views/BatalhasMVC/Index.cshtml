@@ -90,6 +90,7 @@
 
 @section MeusScripts{
     <script type="text/javascript">
+        $("#email").text(sessionStorage.getItem("emailUsuario"));
         function showError(jqXHR) {
 
             alert("Olá Erro!");
@@ -134,6 +135,5 @@
                 location.reload();
             }).fail(showError);
         }
-
     </script>
 }

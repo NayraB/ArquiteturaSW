@@ -95,9 +95,8 @@ namespace JogosDeGuerraModel
                         elemento.Tabuleiro = this;
 //                        this.Casas.Add(elemento.posicao, elemento);
                     }
-
-
                 }
+
             }
         }
 

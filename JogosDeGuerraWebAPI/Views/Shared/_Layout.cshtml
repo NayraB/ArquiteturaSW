@@ -5,8 +5,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.js" type="text/javascript"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .item-nav {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            line-height: 20px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            color: #999999;
+            padding-left: 650px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <body>
@@ -24,6 +40,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Início", "Index", "Home", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    <li><span class="item-nav" id="email" onclick="goLogin()"></span></li>
                 </ul>
             </div>
         </div>
@@ -39,5 +56,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     @RenderSection("MeusScripts", required: false)
+    <script>
+        $("#email").text(sessionStorage.getItem("emailUsuario"));
+        function goLogin() {
+            window.location.href = "/";
+        }
+    </script>
 </body>
 </html>
