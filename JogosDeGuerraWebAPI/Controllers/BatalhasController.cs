@@ -34,11 +34,18 @@ namespace JogosDeGuerraWebAPI.Controllers
         }
 
         // GET: api/Batalhas/5
-        [Route("Busca")]
         [HttpGet]
         public Batalha Get(int id)
         {           
-            return ctx.Batalhas.Find(id);
+            return ctx.Batalhas
+                    .Include(b => b.ExercitoBranco)
+                    .Include(b => b.ExercitoPreto)
+                    .Include(b => b.Tabuleiro)
+                    .Include(b => b.ExercitoBranco.Elementos)
+                    .Include(b => b.ExercitoPreto.Elementos)
+                    //.Include(b => b.Turno)
+                    //.Include(b => b.Turno.Usuario)
+                    .Where(x => x.Id == id).First();
         }
 
         [Route("VerificaUsuarioEmBatalha")]
@@ -64,13 +71,6 @@ namespace JogosDeGuerraWebAPI.Controllers
         {
             var batalha = this.ctx.Batalhas.Find(idBatalha);
             return batalha.ExercitoBranco != null && batalha.ExercitoPreto != null;
-        }
-
-        [Route("Busca")]
-        [HttpGet]
-        public Batalha asd(int id)
-        {
-            return ctx.Batalhas.Find(id);
         }
 
         [Route("Iniciar")]
