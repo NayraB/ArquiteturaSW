@@ -30,6 +30,7 @@ namespace JogosDeGuerraModel
         public int? BatalhaId { get; set; }
 
         [ForeignKey("BatalhaId")]
+        [NotMapped]
         public Batalha Batalha { get; set; }
 
         public int UsuarioId { get; set; }

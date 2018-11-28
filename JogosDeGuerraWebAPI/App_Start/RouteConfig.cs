@@ -20,6 +20,12 @@ namespace JogosDeGuerraWebAPI
             );
 
             routes.MapRoute(
+                "Register",
+                "Register/",
+                new { controller = "Home", action = "Register" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Login", id = UrlParameter.Optional }
