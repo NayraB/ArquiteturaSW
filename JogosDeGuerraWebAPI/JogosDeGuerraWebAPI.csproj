@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201811291134003_29.11.Designer.cs">
       <DependentUpon>201811291134003_29.11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811291307400_29.11v2.cs" />
+    <Compile Include="Migrations\201811291307400_29.11v2.Designer.cs">
+      <DependentUpon>201811291307400_29.11v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -292,6 +296,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Cycle.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -354,6 +359,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811291134003_29.11.resx">
       <DependentUpon>201811291134003_29.11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291307400_29.11v2.resx">
+      <DependentUpon>201811291307400_29.11v2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

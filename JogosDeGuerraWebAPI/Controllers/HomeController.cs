@@ -9,13 +9,12 @@ namespace JogosDeGuerraWebAPI.Controllers
 {
     public class HomeController : Controller
     {
+        public JogosDeGuerraModel.ModelJogosDeGuerra ctx { get; set; } = new JogosDeGuerraModel.ModelJogosDeGuerra();
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
             bool usuarioAutenticado = 
-                Utils.Utils.ObterUsuarioLogado(
-                    new JogosDeGuerraModel.ModelJogosDeGuerra()
-                    ) != null;
+                Utils.Utils.ObterUsuarioLogado(ctx) != null;
 
             if (!usuarioAutenticado)
             {
@@ -25,39 +24,18 @@ namespace JogosDeGuerraWebAPI.Controllers
             return View();
         }
 
-        public ActionResult Tabuleiro()
+        public ActionResult Tabuleiro(int BatalhaId = -1)
         {
             ViewBag.Title = "Tabuleiro";
-
+            var batalha = ctx.Batalhas
+                   .Where(b => b.Id == BatalhaId).FirstOrDefault();
+            if (batalha != null)
+                return View(batalha);
             return View();
         }
 
         public ActionResult Login(string usuario, string password, string rememberme, string returnurl)
         {
-            /*
-            ViewBag.Title = "Login";
-            var user = busUser.ValidateUserAndLoad(email, password);
-            if (user == null)
-            {
-                ErrorDisplay.ShowError(busUser.ErrorMessage);
-                return View(ViewModel);
-            }
-
-            AppUserState appUserState = new AppUserState()
-            {
-                Email = user.Email,
-                Name = user.Name,
-                UserId = user.Id,
-                Theme = user.Theme,
-                IsAdmin = user.IsAdmin
-            };
-            IdentitySignin(appUserState, user.OpenId, rememberMe);
-
-            if (!string.IsNullOrEmpty(returnUrl))
-                return Redirect(returnUrl);
-
-            return RedirectToAction("New", "Snippet", null);
-            */
             return View();
         }
 

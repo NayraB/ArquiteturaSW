@@ -37,5 +37,5 @@ namespace JogosDeGuerraModel
 
         public System.Data.Entity.DbSet<JogosDeGuerraModel.Tabuleiro> Tabuleiroes { get; set; }
     }
-        
+
 }

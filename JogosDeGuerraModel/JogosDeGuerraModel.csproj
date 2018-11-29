@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201811291137005_29.11.Designer.cs">
       <DependentUpon>201811291137005_29.11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811291307003_29.11v2.cs" />
+    <Compile Include="Migrations\201811291307003_29.11v2.Designer.cs">
+      <DependentUpon>201811291307003_29.11v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelJogosDeGuerra.cs" />
     <Compile Include="Usuario.cs" />
@@ -92,6 +96,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811291137005_29.11.resx">
       <DependentUpon>201811291137005_29.11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291307003_29.11v2.resx">
+      <DependentUpon>201811291307003_29.11v2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

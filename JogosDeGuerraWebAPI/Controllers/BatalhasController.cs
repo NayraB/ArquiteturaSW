@@ -36,16 +36,17 @@ namespace JogosDeGuerraWebAPI.Controllers
         // GET: api/Batalhas/5
         [HttpGet]
         public Batalha Get(int id)
-        {           
-            return ctx.Batalhas
-                    .Include(b => b.ExercitoBranco)
-                    .Include(b => b.ExercitoPreto)
-                    .Include(b => b.Tabuleiro)
-                    .Include(b => b.ExercitoBranco.Elementos)
-                    .Include(b => b.ExercitoPreto.Elementos)
-                    //.Include(b => b.Turno)
-                    //.Include(b => b.Turno.Usuario)
-                    .Where(x => x.Id == id).First();
+        {
+            var batalha = ctx.Batalhas.Include(b => b.ExercitoPreto)
+                .Include(b => b.ExercitoPreto.Usuario)
+                .Include(b => b.ExercitoBranco)
+                .Include(b => b.ExercitoBranco.Usuario)
+                .Include(b => b.Tabuleiro)
+                .Include(b => b.Tabuleiro.ElementosDoExercito)
+                .Include(b => b.Turno)
+                .Include(b => b.Turno.Usuario)
+                .Where(b => b.Id == id).FirstOrDefault();
+            return batalha;
         }
 
         [Route("VerificaUsuarioEmBatalha")]
@@ -113,7 +114,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                 batalha.Turno = r.Next(100) < 50
                     ? batalha.ExercitoPreto : 
                     batalha.ExercitoBranco;
-                //batalha.Estado = Batalha.EstadoBatalhaEnum.Iniciado;
+                batalha.Estado = Batalha.EstadoBatalhaEnum.Iniciado;
             }
             ctx.SaveChanges();
             return batalha;
@@ -141,14 +142,8 @@ namespace JogosDeGuerraWebAPI.Controllers
 
             if (usuario.Id == movimento.AutorId)
             {
-                var batalha = ctx.Batalhas
-                    .Include(b => b.ExercitoBranco)
-                    .Include(b => b.ExercitoPreto)
-                    .Include(b => b.Tabuleiro)
-                    .Include(b => b.ExercitoBranco.Elementos)
-                    .Include(b => b.ExercitoPreto.Elementos)
-                    .Where(b => b.Id== movimento.BatalhaId).First();
-                if(movimento.AutorId != movimento.Elemento.Exercito.UsuarioId)
+                var batalha = Get(movimento.BatalhaId);
+                if (movimento.AutorId != movimento.Elemento.Exercito.UsuarioId)
                 {
                     var resp = new HttpResponseMessage(HttpStatusCode.Forbidden)
                     {
