@@ -3,7 +3,7 @@ namespace JogosDeGuerraModel.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _2811 : DbMigration
+    public partial class _2911 : DbMigration
     {
         public override void Up()
         {
