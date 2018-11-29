@@ -8,6 +8,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.js" type="text/javascript"></script>
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <style>
@@ -19,14 +22,22 @@
             padding-top: 15px;
             padding-bottom: 15px;
             color: #999999;
-            padding-left: 650px;
             cursor: pointer;
+        }
+        .color-toolbar {
+            color: #ececec !important;
+        }
+        .a:focus {
+            background-color: #194286 !important;
+        }
+        .a:hover {
+            background-color: #5784cc !important;
         }
     </style>
 </head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<body style="background-color: rgba(230, 230, 230, 0.18);">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #2b66c5 !important; border-color: #0400ff !important;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -34,12 +45,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="/" class="navbar-brand color-toolbar a"><i class="fas fa-jedi"></i> Jogos de Guerra</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Início", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle color-toolbar a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>  <span id="email"></span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/BatalhasMVC/Index"><i class="fas fa-gamepad"></i>  Batalhas</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#" onclick="logout()"><i class="fas fa-power-off"></i>  Logout</a></li>
+                        </ul>
+                    </li>
                     <li><span class="item-nav" id="email" onclick="goLogin()"></span></li>
                 </ul>
             </div>
@@ -49,7 +66,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - Jogos de Guerra</p>
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")  
@@ -57,7 +74,14 @@
     @RenderSection("scripts", required: false)
     @RenderSection("MeusScripts", required: false)
     <script>
-        $("#email").text(sessionStorage.getItem("emailUsuario"));
+        var email = sessionStorage.getItem("emailUsuario") ? sessionStorage.getItem("emailUsuario") : "Account";
+        $("#email").text(email);
+        function logout() {
+            sessionStorage.removeItem('emailUsuario');
+            sessionStorage.removeItem('accessToken');
+            goLogin();
+        }
+
         function goLogin() {
             window.location.href = "/";
         }

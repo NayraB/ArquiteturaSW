@@ -238,13 +238,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810251421428_InitialCreate.cs" />
-    <Compile Include="Migrations\201810251421428_InitialCreate.Designer.cs">
-      <DependentUpon>201810251421428_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811061247525_EstadoBatalha-20181106.cs" />
-    <Compile Include="Migrations\201811061247525_EstadoBatalha-20181106.Designer.cs">
-      <DependentUpon>201811061247525_EstadoBatalha-20181106.cs</DependentUpon>
+    <Compile Include="Migrations\201811282226597_28.11.cs" />
+    <Compile Include="Migrations\201811282226597_28.11.Designer.cs">
+      <DependentUpon>201811282226597_28.11.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -356,11 +352,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810251421428_InitialCreate.resx">
-      <DependentUpon>201810251421428_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811061247525_EstadoBatalha-20181106.resx">
-      <DependentUpon>201811061247525_EstadoBatalha-20181106.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811282226597_28.11.resx">
+      <DependentUpon>201811282226597_28.11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

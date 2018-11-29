@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Batalhas</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNovaBatalha">Nova Batalha</button>
 </p>
 <table class="table">
     @*Header*@
@@ -74,19 +74,49 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                @if (item.Estado == JogosDeGuerraModel.Batalha.EstadoBatalhaEnum.NaoIniciado)
+                @if (item.ExercitoBranco != null && item.ExercitoPreto != null)
                 {
                     @Html.ActionLink("Iniciar Batalha", "Iniciar", new { id = item.Id }) 
-                    @Html.Label("|")
                 }
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
             </td>
         </tr>
     }
 
 </table>
-<button type="button" class="btn btn-primary" onclick="criarBatalha()">Nova Batalha</button>
+
+<div class="modal fade" id="modalNovaBatalha" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content https://www.w3schools.com/bootstrap/bootstrap_ref_comp_glyphs.asp -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Nova batalha!</h3>
+            </div>
+            <form>
+                <div class="modal-body">
+
+                    <h3>Selecione uma Nação:</h3>
+                    <br />
+                    <p><label><input type="radio" name="Nacao" value="1" required /> India  </label></p>
+                    <p><label><input type="radio" name="Nacao" value="2" /> Persa  </label></p>
+                    <p><label><input type="radio" name="Nacao" value="3" /> Egito  </label></p>
+                    <p><label><input type="radio" name="Nacao" value="4" /> Nordico  </label></p>
+                </div>
+                <div class="modal-footer">
+                    <p>Deseja entrar em uma nova batalha?</p>
+                    <br />
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>  Não</button>
+                    <button type="submit" class="btn btn-success" onclick="criarBatalha()"><i class="glyphicon glyphicon-ok"></i>  Sim</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
 
 @section MeusScripts{
     <script type="text/javascript">
@@ -125,15 +155,23 @@
             if (token) {
                 headers.Authorization = token;
             }
-            var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=2";
-            $.ajax({
-                type: 'GET',
-                url: baseUrl + '/api/Batalhas/CriarNovaBatalha?Nacao=1',
-                headers: headers
-            }).done(function (data) {
-                alert("Criada com Sucesso!");
-                location.reload();
-            }).fail(showError);
+            var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=1";
+            var nacao = document.querySelector('input[name="Nacao"]:checked').value;
+            if (nacao) {
+                alert(nacao);
+                var urlNovaBatalha = baseUrl + '/api/Batalhas/CriarNovaBatalha?Nacao=' + nacao;
+                $.ajax({
+                    type: 'GET',
+                    url: urlNovaBatalha,
+                    headers: headers
+                }).done(function (data) {
+                    alert("Criada com Sucesso!");
+                    location.reload();
+                }).fail(showError);
+            } else {
+                alert("Selecione uma Nação!");
+            }
+            
         }
     </script>
 }

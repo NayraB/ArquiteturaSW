@@ -6,28 +6,48 @@
         <div class="col-sm-9 col-md-7 col-lg-4 col-lg-offset-4 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Sign In</h5>
-                    <form>
-                        <div style="background-color:red; color:white">
-                            @ViewBag.Message
+                    <div class="row main">
+                        <div class="panel-heading">
+                            <div class="panel-title text-center">
+                                <h1 class="title">Register</h1>
+                                <hr />
+                            </div>
                         </div>
-                        <div class="form-label-group">
-                            <input type="email" id="loginEmail" class="form-control" placeholder="Email address" required autofocus>
-                            <label for="loginEmail" style="text-align:left" s>Email address</label>
-
+                        <div class="main-login main-center" style="margin: 25px;">
+                            <form class="form-horizontal" method="post" action="#">
+                                <div class="form-group">
+                                    <label for="loginEmail" class="cols-sm-2 control-label">Your Email</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="loginEmail" id="loginEmail" placeholder="Enter your Email" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="loginPassword" class="cols-sm-2 control-label">Password</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Enter your Password" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="loginConfirmPassword" class="cols-sm-2 control-label">Confirm Password</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control" name="loginConfirmPassword" id="loginConfirmPassword" placeholder="Confirm your Password" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <button type="button" onclick="register()" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-label-group">
-                            <input type="password" id="loginPassword" class="form-control" placeholder="Password" required>
-                            <label for="loginPassword" style="text-align:left">Password</label>
-                        </div>
-                        <div class="form-label-group">
-                            <input type="password" id="loginConfirmPassword" class="form-control" placeholder="ConfirmPassword" required>
-                            <label for="loginConfirmPassword" style="text-align:left">Password</label>
-                        </div>
-                        <div>
-                            <button onclick="register()" class="btn btn-lg btn-primary btn-block text-uppercase" type="button">Register</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,8 +57,6 @@
 @section MeusScripts{
 <script type="text/javascript">
     function showError(jqXHR) {
-
-        alert("Olá Erro!");
         var response = jqXHR.responseJSON;
         if (response) {
             if (response.Message) self.errors.push(response.Message);
@@ -75,7 +93,6 @@
             url: baseUrl + '/api/Account/Register',
             data: registerData
         };
-        console.log(body);
         $.ajax(body).done(function (data) {
             alert("Registrado com Sucesso!");
             window.location.href = baseUrl + "/Home/Login";

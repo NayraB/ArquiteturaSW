@@ -92,66 +92,56 @@ $(function () {
         //TODO: vizualizar batalha
     }
 
-    function inicializaDialog() {
-        
-        
-    }
-
-    $(function () {
-        $("#dialogDesejaEntrar").dialog({
-            bgiframe: true,
-            autoOpen: false,
-            modal: true,
-            show: "blind",
-            hide: "blind",
-            title: "Aguarde...",
-            buttons: [{
-                text: "Cancelar",
-                icon: "ui-icon-closethick",
-                click: function () {
-                    $(this).dialog("close");
-                }
-            },
-            {
-                text: "Entrar",
-                icon: "ui-icon-check",
-                click: function () {
-                    //TODO: entrar na batalha
-                    $(this).dialog("close");
-                }
-            }]
-        });
-    });
-
-    $(function () {
-        $("#dialogAguardaJogador").dialog({
-            bgiframe: true,
-            autoOpen: true,
-            modal: true,
-            show: "blind",
-            hide: "blind",
-            title: "Aguarde...",
-            buttons: [{
-                text: "Voltar",
-                icon: "ui-icon-arrowreturnthick-1-w",
-                click: function () {
-                    $(this).dialog("close");
-                }
-            }]
-        });
-    });
-
-    function AvisarJogador() {
-        
-        $("#dialogAguardaJogador").dialog("open");
-    }
+    //function AvisarJogador() {
+    //    $(function () {
+    //        $("#dialogDesejaEntrar").dialog({
+    //            bgiframe: true,
+    //            autoOpen: true,
+    //            modal: true,
+    //            show: "blind",
+    //            hide: "blind",
+    //            title: "Aguarde...",
+    //            buttons: [{
+    //                text: "Cancelar",
+    //                icon: "ui-icon-closethick",
+    //                click: function () {
+    //                    $(this).dialog("close");
+    //                }
+    //            },
+    //            {
+    //                text: "Entrar",
+    //                icon: "ui-icon-check",
+    //                click: function () {
+    //                    //TODO: entrar na batalha
+    //                    $(this).dialog("close");
+    //                }
+    //            }]
+    //        });
+    //    });
+    //}
     
-    //icones jQuery
-    //https://api.jqueryui.com/theming/icons/
-    function PerguntarUsuario(batalha) {
-        
-        $("#dialogDesejaEntrar").dialog("open");
-    }
+    ////icones jQuery
+    ////https://api.jqueryui.com/theming/icons/
+    //function PerguntarUsuario(batalha) {
+    //    $(function () {
+    //        $("#dialogAguardaJogador").dialog({
+    //            bgiframe: true,
+    //            autoOpen: true,
+    //            modal: true,
+    //            show: "blind",
+    //            hide: "blind",
+    //            title: "Aguarde...",
+    //            buttons: [{
+    //                text: "Voltar",
+    //                icon: "ui-icon-arrowreturnthick-1-w",
+    //                click: function () {
+    //                    $(this).dialog("close");
+    //                }
+    //            }]
+    //        });
+    //    });
+    //    $("#dialogDesejaEntrar").dialog("open");
+    //}
     
     function MontarTabuleiro(batalhaParam) {
 

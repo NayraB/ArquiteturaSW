@@ -6,14 +6,14 @@ namespace JogosDeGuerraWebAPI.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class EstadoBatalha20181106 : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
+    public sealed partial class _2811 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(EstadoBatalha20181106));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_2811));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811061247525_EstadoBatalha-20181106"; }
+            get { return "201811282226597_28.11"; }
         }
         
         string IMigrationMetadata.Source
