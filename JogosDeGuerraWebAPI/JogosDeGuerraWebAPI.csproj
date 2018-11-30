@@ -281,8 +281,8 @@
     <Content Include="Images\CavalariaEgipcioPreto.png" />
     <Content Include="Images\CavalariaIndianoBranco.png" />
     <Content Include="Images\CavalariaIndianoPreto.png" />
-    <Content Include="Images\CavalariaNordicaBranco.png" />
-    <Content Include="Images\CavalariaNordicaPreto.png" />
+    <Content Include="Images\CavalariaNordicoBranco.png" />
+    <Content Include="Images\CavalariaNordicoPreto.png" />
     <Content Include="Images\CavalariaPersaBranco.png" />
     <Content Include="Images\CavalariaPersaPreto.png" />
     <Content Include="Images\GuerreiroEgipcioBranco.png" />

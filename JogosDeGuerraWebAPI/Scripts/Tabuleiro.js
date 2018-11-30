@@ -116,7 +116,11 @@ $(function () {
         var pecas = batalha.Tabuleiro.ElementosDoExercito
         var ExercitoBrancoId = batalha.ExercitoBrancoId;
         var ExercitoPretoId = batalha.ExercitoPretoId;
-        
+        if (batalha.TurnoId == batalha.ExercitoBranco.UsuarioId) {
+            $("#turno_jogador").text(batalha.ExercitoBranco.Usuario.Email)
+        } else {
+            $("#turno_jogador").text(batalha.ExercitoPreto.Usuario.Email)
+        }
         $("#tabuleiro").empty();
         var i;
         for (i = 0; i < batalha.Tabuleiro.Altura; i++) {
@@ -171,7 +175,9 @@ $(function () {
                     pecaSelecionadaObj = pecasNoTabuleiro[altura][largura];
                 }
                 //Legenda que mostra informações da peça selecionada.
-                $("#info_peca_selecionada").text(peca_selecionadaId.toString());
+                var msgPecaSelecionada = peca_selecionadaId.toString();
+                if (pecaSelecionadaObj) msgPecaSelecionada += " | Saúde: " + pecaSelecionadaObj.Saude;
+                $("#info_peca_selecionada").text(msgPecaSelecionada);
             } else {
                 var posicaopeca = {
                     Altura: altura,
