@@ -7,11 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JogosDeGuerraModel;
+
 namespace JogosDeGuerraWebAPI.Controllers
 {
     public class BatalhasMVCController : Controller
     {
         private ModelJogosDeGuerra db = new ModelJogosDeGuerra();
+
         // GET: BatalhasMVC
         public ActionResult Index()
         {
@@ -25,6 +27,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                 .Include(b => b.Vencedor);
             return View(batalhas.ToList());
         }
+
         // GET: BatalhasMVC/Details/5
         public ActionResult Details(int? id)
         {
@@ -39,6 +42,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             }
             return View(batalha);
         }
+
         // GET: BatalhasMVC/Create
         public ActionResult Create()
         {
@@ -49,6 +53,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             ViewBag.VencedorId = new SelectList(db.Exercitos, "Id", "Id");
             return View();
         }
+
         // POST: BatalhasMVC/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -62,6 +67,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.ExercitoBrancoId = new SelectList(db.Exercitos, "Id", "Id", batalha.ExercitoBrancoId);
             ViewBag.ExercitoPretoId = new SelectList(db.Exercitos, "Id", "Id", batalha.ExercitoPretoId);
             ViewBag.TabuleiroId = new SelectList(db.Tabuleiroes, "Id", "Id", batalha.TabuleiroId);
@@ -69,6 +75,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             ViewBag.VencedorId = new SelectList(db.Exercitos, "Id", "Id", batalha.VencedorId);
             return View(batalha);
         }
+
         // GET: BatalhasMVC/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -88,6 +95,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             ViewBag.VencedorId = new SelectList(db.Exercitos, "Id", "Id", batalha.VencedorId);
             return View(batalha);
         }
+
         // POST: BatalhasMVC/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -108,6 +116,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             ViewBag.VencedorId = new SelectList(db.Exercitos, "Id", "Id", batalha.VencedorId);
             return View(batalha);
         }
+
         [Route("Tabuleiro/{id}")]
         public ActionResult Tabuleiro(int? id)
         {
@@ -123,6 +132,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             ViewBag.Id = batalha.Id;
             return View(batalha);
         }
+
         // GET: BatalhasMVC/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -137,6 +147,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             }
             return View(batalha);
         }
+
         // POST: BatalhasMVC/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -147,6 +158,9 @@ namespace JogosDeGuerraWebAPI.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -8,5 +8,9 @@ namespace JogosDeGuerraModel
 {
     class ArqueiroPersa : Arqueiro
     {
+        public ArqueiroPersa()
+        {
+            Image += "Persa";
+        }
     }
 }

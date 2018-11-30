@@ -8,5 +8,9 @@ namespace JogosDeGuerraModel
 {
     class CavaleiroIndiana : Cavaleiro
     {
+        public CavaleiroIndiana()
+        {
+            Image += "Indiano";
+        }
     }
 }

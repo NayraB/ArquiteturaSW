@@ -15,5 +15,6 @@ namespace JogosDeGuerraModel
         public override int AlcanceMovimento { get; protected set; } = 3;
         public override int AlcanceAtaque { get; protected set; } = 1;
         public override int Ataque { get; protected set; } = 25;
+        public override string Image { get; protected set; } = "Cavalaria";
     }
 }

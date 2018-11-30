@@ -34,7 +34,6 @@ namespace JogosDeGuerraWebAPI.Controllers
         }
 
         // GET: api/Batalhas/5
-        [HttpGet]
         public Batalha Get(int id)
         {
             var batalha = ctx.Batalhas.Include(b => b.ExercitoPreto)
@@ -44,34 +43,8 @@ namespace JogosDeGuerraWebAPI.Controllers
                 .Include(b => b.Tabuleiro)
                 .Include(b => b.Tabuleiro.ElementosDoExercito)
                 .Include(b => b.Turno)
-                .Include(b => b.Turno.Usuario)
-                .Where(b => b.Id == id).FirstOrDefault();
+                .Include(b => b.Turno.Usuario).Where(b => b.Id == id).FirstOrDefault();
             return batalha;
-        }
-
-        [Route("VerificaUsuarioEmBatalha")]
-        [HttpGet]
-        public Boolean JogadorLogadoParticipaBatalha(int id)
-        {
-            var usuario = Utils.Utils.ObterUsuarioLogado(ctx);
-            var batalha = this.ctx.Batalhas.Find(id);
-            if(batalha.ExercitoBranco != null &&
-               batalha.ExercitoPreto != null &&
-                (batalha.ExercitoBranco.UsuarioId == usuario.Id || 
-                 batalha.ExercitoPreto.UsuarioId == usuario.Id)
-                )
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
-
-        public Boolean VerificaDoisJogadores(int idBatalha)
-        {
-            var batalha = this.ctx.Batalhas.Find(idBatalha);
-            return batalha.ExercitoBranco != null && batalha.ExercitoPreto != null;
         }
 
         [Route("Iniciar")]
@@ -85,11 +58,11 @@ namespace JogosDeGuerraWebAPI.Controllers
                 .Include(b => b.Tabuleiro)
                 .Include(b => b.Turno)
                 .Include(b => b.Turno.Usuario)
-                .Where(b => 
-                (b.ExercitoBranco.Usuario.Email == usuario.Email 
+                .Where(b =>
+                (b.ExercitoBranco.Usuario.Email == usuario.Email
                 || b.ExercitoPreto.Usuario.Email == usuario.Email)
-                && ( b.ExercitoBranco != null && b.ExercitoPreto != null) 
-                && b.Id == id ).FirstOrDefault();
+                && (b.ExercitoBranco != null && b.ExercitoPreto != null)
+                && b.Id == id).FirstOrDefault();
             if (batalha == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
@@ -99,7 +72,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                 };
                 throw new HttpResponseException(resp);
             }
-                        
+
             if (batalha.Tabuleiro == null)
             {
                 batalha.Tabuleiro = new Tabuleiro();
@@ -107,12 +80,12 @@ namespace JogosDeGuerraWebAPI.Controllers
                 batalha.Tabuleiro.Largura = 8;
             }
 
-            if(batalha.Estado== Batalha.EstadoBatalhaEnum.NaoIniciado)
+            if (batalha.Estado == Batalha.EstadoBatalhaEnum.NaoIniciado)
             {
                 batalha.Tabuleiro.IniciarJogo(batalha.ExercitoBranco, batalha.ExercitoPreto);
                 Random r = new Random();
                 batalha.Turno = r.Next(100) < 50
-                    ? batalha.ExercitoPreto : 
+                    ? batalha.ExercitoPreto :
                     batalha.ExercitoBranco;
                 batalha.Estado = Batalha.EstadoBatalhaEnum.Iniciado;
             }
@@ -124,7 +97,7 @@ namespace JogosDeGuerraWebAPI.Controllers
         [HttpPost]
         public Batalha Jogar(Movimento movimento)
         {
-            movimento.Elemento = 
+            movimento.Elemento =
                 ctx.ElementosDoExercitos.Find(movimento.ElementoId);
             if (movimento.Elemento == null)
             {
@@ -136,7 +109,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                 throw new HttpResponseException(resp);
             }
 
-            movimento.Batalha = 
+            movimento.Batalha =
                 ctx.Batalhas.Find(movimento.BatalhaId);
             var usuario = Utils.Utils.ObterUsuarioLogado(ctx);
 
@@ -189,11 +162,11 @@ namespace JogosDeGuerraWebAPI.Controllers
                         String
                         .Format(
                             "O usuário tentou executar uma ação como se fosse outro usuário.")),
-                    ReasonPhrase = 
+                    ReasonPhrase =
                     "Você não tem permissão para executar esta ação."
                 };
                 throw new HttpResponseException(resp);
-            }           
+            }
         }
 
 
@@ -208,7 +181,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             //E exercito Preto esteja em branco
             var batalha = ctx.Batalhas
                 .Include(x => x.ExercitoBranco.Usuario)
-                .Where(b => b.ExercitoPreto == null && 
+                .Where(b => b.ExercitoPreto == null &&
                     b.ExercitoBranco != null &&
                     b.ExercitoBranco.Usuario.Email != usuarioLogado.Email)
                 .FirstOrDefault();
@@ -226,7 +199,7 @@ namespace JogosDeGuerraWebAPI.Controllers
             return batalha;
         }
 
-      
+
 
         // POST: api/Batalhas
         public void Post([FromBody]Batalha value)
@@ -244,6 +217,6 @@ namespace JogosDeGuerraWebAPI.Controllers
         {
         }
 
-       
+
     }
 }

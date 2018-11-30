@@ -53,6 +53,8 @@ namespace JogosDeGuerraModel
         public abstract int AlcanceAtaque { get; protected set; }
         [DataMember]
         public abstract int Ataque { get; protected set; }
+        [DataMember]
+        public abstract string Image { get; protected set; }
     }
 
 
