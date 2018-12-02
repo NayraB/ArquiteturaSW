@@ -8,6 +8,7 @@ var ObterBatalha;
 var IniciarBatalha;
 var CriarNovaBatalha;
 var MontarTabuleiro;
+var Tabuleiro;
 $(function () {
     $("#email").text(sessionStorage.getItem("emailUsuario"));
     var baseUrl = window.location.protocol + "//" +
@@ -45,7 +46,6 @@ $(function () {
             }
         }
     }
-
 
     ObterBatalha = function (BatalhaId) {
         var urlObterBatalha = baseUrl + "/api/Batalhas/" + BatalhaId;
@@ -108,6 +108,54 @@ $(function () {
     ////icones jQuery
     ////https://api.jqueryui.com/theming/icons/
 
+    function retornaAlcanceMovimento(tabuleiro, alturaPeca, larguraPeca, peca) {
+        var listMov = [];
+        alturaPeca = parseInt(alturaPeca);
+        larguraPeca = parseInt(larguraPeca);
+        for (var j = 1; j <= peca.AlcanceMovimento; j++) {
+            var altura1 = alturaPeca;
+            var largura1 = larguraPeca + j;
+            var posicao1 = {
+                altura: altura1,
+                largura: largura1
+            };
+
+            var altura2 = alturaPeca + j;
+            var largura2 = larguraPeca;
+            var posicao2 = {
+                altura: altura2,
+                largura: largura2
+            };
+
+            var altura3 = alturaPeca - j;
+            var largura3 = larguraPeca;
+            var posicao3 = {
+                altura: altura3,
+                largura: largura3
+            };
+
+            var altura4 = alturaPeca;
+            var largura4 = larguraPeca - j;
+            var posicao4 = {
+                altura: altura4,
+                largura: largura4
+            };
+
+            if (posicao1.altura >= 0 && posicao1.largura >= 0) {
+                listMov.push(posicao1);
+            }
+            if (posicao2.altura >= 0 && posicao2.largura >= 0) {
+                listMov.push(posicao2);
+            }
+            if (posicao3.altura >= 0 && posicao3.largura >= 0) {
+                listMov.push(posicao3);
+            }
+            if (posicao4.altura >= 0 && posicao4.largura >= 0) {
+                listMov.push(posicao4);
+            }
+        }
+        return listMov;
+    }
     
     MontarTabuleiro = function(batalhaParam) {
 
@@ -160,8 +208,9 @@ $(function () {
             $("#" + casa_selecionada).addClass("casa_selecionada");
             //Legenda que mostra informações da casa selecionada.
             $("#info_casa_selecionada").text(casa_selecionada);
-            var altura = casa_selecionada.split("_")[1]
-            var largura = casa_selecionada.split("_")[2]
+            var altura = casa_selecionada.split("_")[1];
+            var largura = casa_selecionada.split("_")[2];
+            
             if (pecaElem == null) {
                 //Obter o id da imagem selecionada.
                 peca_selecionadaId = ObterPecaIDNaCasa(casa_selecionada);
@@ -173,6 +222,11 @@ $(function () {
                     //Guardar a peça selecionada.
                     pecaElem = document.getElementById(peca_selecionadaId);
                     pecaSelecionadaObj = pecasNoTabuleiro[altura][largura];
+                    var alcanceMovimento = retornaAlcanceMovimento(pecasNoTabuleiro, altura, largura, pecaSelecionadaObj);
+                    for (var mov in alcanceMovimento) {
+                        var casa = "casa_" + alcanceMovimento[mov].altura + "_" + alcanceMovimento[mov].largura;
+                        $("#" + casa).addClass("movimento_peca");
+                    }
                 }
                 //Legenda que mostra informações da peça selecionada.
                 var msgPecaSelecionada = peca_selecionadaId.toString();
