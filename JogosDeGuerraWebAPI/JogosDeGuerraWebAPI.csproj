@@ -238,9 +238,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812012045144_1.cs" />
-    <Compile Include="Migrations\201812012045144_1.Designer.cs">
-      <DependentUpon>201812012045144_1.cs</DependentUpon>
+    <Compile Include="Migrations\201812032142494_03.12.cs" />
+    <Compile Include="Migrations\201812032142494_03.12.Designer.cs">
+      <DependentUpon>201812032142494_03.12.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -254,8 +254,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\BatalhasIndex.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\General.css" />
     <Content Include="Content\Interceptor.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\TabuleiroEstilo.css" />
@@ -292,6 +294,7 @@
     <Content Include="Images\GuerreiroPersaPreto.png" />
     <Content Include="Images\horse-black.png" />
     <Content Include="Images\horse-white.png" />
+    <Content Include="Scripts\BatalhaIndex.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -326,7 +329,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Register.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Tabuleiro.js" />
@@ -379,8 +384,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812012045144_1.resx">
-      <DependentUpon>201812012045144_1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812032142494_03.12.resx">
+      <DependentUpon>201812032142494_03.12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

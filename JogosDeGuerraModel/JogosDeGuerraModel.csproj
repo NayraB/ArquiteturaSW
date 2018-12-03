@@ -74,9 +74,9 @@
     <Compile Include="GuerreiroIndiano.cs" />
     <Compile Include="GuerreiroNordico.cs" />
     <Compile Include="GuerreiroPersa.cs" />
-    <Compile Include="Migrations\201812021551072_02.12.cs" />
-    <Compile Include="Migrations\201812021551072_02.12.Designer.cs">
-      <DependentUpon>201812021551072_02.12.cs</DependentUpon>
+    <Compile Include="Migrations\201812032143203_03.12.cs" />
+    <Compile Include="Migrations\201812032143203_03.12.Designer.cs">
+      <DependentUpon>201812032143203_03.12.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelJogosDeGuerra.cs" />
@@ -90,8 +90,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812021551072_02.12.resx">
-      <DependentUpon>201812021551072_02.12.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812032143203_03.12.resx">
+      <DependentUpon>201812032143203_03.12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

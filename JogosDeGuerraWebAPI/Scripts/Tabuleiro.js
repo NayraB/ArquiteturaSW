@@ -333,9 +333,11 @@ $(function () {
         var ExercitoBrancoId = batalha.ExercitoBrancoId;
         var ExercitoPretoId = batalha.ExercitoPretoId;
         if (batalha.TurnoId == batalha.ExercitoBranco.UsuarioId) {
-            $("#turno_jogador").text(batalha.ExercitoBranco.Usuario.Email)
+            var msgTurno = batalha.ExercitoBranco.Usuario.Email + " | Exercito Branco";
+            $("#turno_jogador").text(msgTurno);
         } else {
-            $("#turno_jogador").text(batalha.ExercitoPreto.Usuario.Email)
+            var msgTurno = batalha.ExercitoPreto.Usuario.Email + " | Exercito Preto";
+            $("#turno_jogador").text(msgTurno);
         }
         $("#tabuleiro").empty();
         var i;

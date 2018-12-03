@@ -1,0 +1,28 @@
+﻿.text-center {
+    text-align: center;
+}
+
+.fundo-claro {
+    background-color: #c6c6c6;
+    border: 1px solid #909090;
+    border-radius: 5px;
+    padding: 13px 0px;
+}
+
+.fundo-escuro {
+    background-color: #989898;
+    border: 1px solid #737373;
+    border-radius: 5px;
+    padding: 13px 0px;
+}
+
+.p-25 {
+    padding: 25px;
+}
+
+.m-10 {
+    margin: 10px;
+}
+.h-411 {
+    height: 411px;
+}

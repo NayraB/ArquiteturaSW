@@ -7,13 +7,13 @@ namespace JogosDeGuerraWebAPI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class _1 : IMigrationMetadata
+    public sealed partial class _0312 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_0312));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812012045144_1"; }
+            get { return "201812032142494_03.12"; }
         }
         
         string IMigrationMetadata.Source
