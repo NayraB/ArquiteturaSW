@@ -53,6 +53,9 @@ namespace JogosDeGuerraModel
         [ForeignKey("TurnoId")]
         public Exercito Turno { get; set; }
 
+        [DataMember]
+        public DateTime UltimoMovimento { get; set; }    
+
         public enum EstadoBatalhaEnum
         {
             NaoIniciado = 0,
@@ -119,7 +122,8 @@ namespace JogosDeGuerraModel
             if (movimento.TipoMovimento == Movimento.EnumTipoMovimento.Mover)
             {
                 //O destino da movimentação da peça deve estar vazio.
-                if (this.Tabuleiro.ObterElemento(movimento.posicao) == null)
+                var peca = this.Tabuleiro.ObterElemento(movimento.posicao);
+                if (peca == null || peca.Saude <= 0)
                 {
                     if (VerificarAlcanceMovimento(movimento) == true)
                     {

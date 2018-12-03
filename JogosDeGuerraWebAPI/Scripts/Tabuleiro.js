@@ -8,13 +8,16 @@ var ObterBatalha;
 var IniciarBatalha;
 var CriarNovaBatalha;
 var MontarTabuleiro;
-var Tabuleiro;
+var Interval;
+var UltimaBatalha;
 $(function () {
     $("#email").text(sessionStorage.getItem("emailUsuario"));
     var baseUrl = window.location.protocol + "//" +
         window.location.hostname +
         (window.location.port ? ':' + window.location.port : '');
     var casa_selecionada = null;
+    var alcanceAtaque = [];
+    var alcanceMovimento = [];
     var batalha = null;
     var peca_selecionadaId = null;
     var pecasNoTabuleiro = null;
@@ -23,6 +26,27 @@ $(function () {
     var elementos = null;
     var token = sessionStorage.getItem("accessToken");
 
+    function buscaAlteracao() {
+        if (UltimaBatalha && UltimaBatalha.UltimoMovimento) {
+            var date = new Date();
+            var urlVerificaBatalha = baseUrl + "/api/Batalhas/VerificaAtualizacao?idBatalha=" + UltimaBatalha.Id + "&data=" + UltimaBatalha.UltimoMovimento + "&noCache=" + date.getTime();
+            var headers = {};
+            if (token) {
+                headers.Authorization = token;
+            }
+            $.ajax({
+                type: 'GET',
+                url: urlVerificaBatalha,
+                headers: headers
+            })
+            .done(function (data) {
+                if (data == true) {
+                    ObterBatalha(UltimaBatalha.Id);
+                }
+            });
+        }
+    }
+    setInterval(buscaAlteracao, 5 * 1000);
     function VerificarBatalha(Batalha) {
         if (Batalha.Estado == 0) {
             if (Batalha.ExercitoPretoId == null || Batalha.ExercitoBrancoId == null) {
@@ -41,6 +65,7 @@ $(function () {
                 IniciarBatalha(Batalha.Id);
             }
         } else {
+            UltimaBatalha = Batalha;
             MontarTabuleiro(Batalha);
             if (Batalha.Estado == 10 || Batalha.Estado == 99) {
             }
@@ -53,6 +78,7 @@ $(function () {
         if (token) {
             headers.Authorization = token;
         }
+        $("#interceptor").removeClass("hide");
         $.ajax({
             type: 'GET',
             url: urlObterBatalha,
@@ -60,9 +86,11 @@ $(function () {
         })
             .done(function (data) {
                 VerificarBatalha(data);
+                $("#interceptor").addClass("hide");
             })
             .fail(
             function (jqXHR, textStatus) {
+                $("#interceptor").addClass("hide");
                 alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
             });
     }
@@ -73,15 +101,18 @@ $(function () {
         if (token) {
             headers.Authorization = token;
         }
+        $("#interceptor").removeClass("hide");
         $.ajax({
             type: 'GET',
             url: urlCriarNovaBatalha,
             headers: headers
         }).done(function (data) {
+            $("#interceptor").addClass("hide");
             window.location.reload();
         }
         ).fail(
         function (jqXHR, textStatus) {
+            $("#interceptor").addClass("hide");
             alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
         });
     }
@@ -92,6 +123,7 @@ $(function () {
         if (token) {
             headers.Authorization = token;
         }
+        $("#interceptor").removeClass("hide");
         $.ajax({
             type: 'GET',
             url: urlIniciarBatalha,
@@ -99,9 +131,11 @@ $(function () {
         }
         ).done(function (data) {
             VerificarBatalha(data);
+            $("#interceptor").addClass("hide");
         }
             ).fail(
             function (jqXHR, textStatus) {
+                $("#interceptor").addClass("hide");
                 alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
             });
     }
@@ -110,6 +144,7 @@ $(function () {
 
     function retornaAlcanceMovimento(tabuleiro, alturaPeca, larguraPeca, peca) {
         var listMov = [];
+        var listAtak = [];
         alturaPeca = parseInt(alturaPeca);
         larguraPeca = parseInt(larguraPeca);
         for (var j = 1; j <= peca.AlcanceMovimento; j++) {
@@ -142,23 +177,156 @@ $(function () {
             };
 
             if (posicao1.altura >= 0 && posicao1.largura >= 0) {
-                listMov.push(posicao1);
+                if (!tabuleiro[altura1] || !tabuleiro[altura1][largura1]) {
+                    listMov.push(posicao1);
+                }
             }
+
             if (posicao2.altura >= 0 && posicao2.largura >= 0) {
-                listMov.push(posicao2);
+                if (!tabuleiro[altura2] || !tabuleiro[altura2][largura2]) {
+                    listMov.push(posicao2);
+                }
             }
+            
             if (posicao3.altura >= 0 && posicao3.largura >= 0) {
-                listMov.push(posicao3);
+                if (!tabuleiro[altura3] || !tabuleiro[altura3][largura3]) {
+                    listMov.push(posicao3);
+                }
             }
+
             if (posicao4.altura >= 0 && posicao4.largura >= 0) {
-                listMov.push(posicao4);
+                if (!tabuleiro[altura4] || !tabuleiro[altura4][largura4]) {
+                    listMov.push(posicao4);
+                }
             }
         }
         return listMov;
     }
-    
-    MontarTabuleiro = function(batalhaParam) {
 
+    function retornaAlcanceAtaque(tabuleiro, alturaPeca, larguraPeca, peca) {
+        var listAtak = [];
+        alturaPeca = parseInt(alturaPeca);
+        larguraPeca = parseInt(larguraPeca);
+        for (var j = 1; j <= peca.AlcanceAtaque; j++) {
+            var altura1 = alturaPeca;
+            var largura1 = larguraPeca + j;
+            var posicao1 = {
+                altura: altura1,
+                largura: largura1
+            };
+
+            var altura2 = alturaPeca + j;
+            var largura2 = larguraPeca;
+            var posicao2 = {
+                altura: altura2,
+                largura: largura2
+            };
+
+            var altura3 = alturaPeca - j;
+            var largura3 = larguraPeca;
+            var posicao3 = {
+                altura: altura3,
+                largura: largura3
+            };
+
+            var altura4 = alturaPeca;
+            var largura4 = larguraPeca - j;
+            var posicao4 = {
+                altura: altura4,
+                largura: largura4
+            };
+
+            if (posicao1.altura >= 0 && posicao1.largura >= 0) {
+                if (tabuleiro[altura1] && tabuleiro[altura1][largura1] &&
+                    tabuleiro[altura1][largura1].ExercitoId != peca.ExercitoId) {
+                    listAtak.push(posicao1);
+                }
+            }
+
+            if (posicao2.altura >= 0 && posicao2.largura >= 0) {
+                if (tabuleiro[altura2] && tabuleiro[altura2][largura2] &&
+                    tabuleiro[altura2][largura2].ExercitoId != peca.ExercitoId) {
+                    listAtak.push(posicao2);
+                }
+            }
+
+            if (posicao3.altura >= 0 && posicao3.largura >= 0) {
+                if (tabuleiro[altura3] && tabuleiro[altura3][largura3] &&
+                    tabuleiro[altura3][largura3].ExercitoId != peca.ExercitoId) {
+                    listAtak.push(posicao3);
+                }
+            }
+
+            if (posicao4.altura >= 0 && posicao4.largura >= 0) {
+                if (tabuleiro[altura4] && tabuleiro[altura4][largura4] &&
+                    tabuleiro[altura4][largura4].ExercitoId != peca.ExercitoId) {
+                    listAtak.push(posicao4);
+                }
+            }
+        }
+        return listAtak;
+    }
+    
+    function removeClassesMovimentoAtaque(alcanceAtaque, alcanceMovimento) {
+        for (var mov in alcanceMovimento) {
+            var casa = "casa_" + alcanceMovimento[mov].altura + "_" + alcanceMovimento[mov].largura;
+            $("#" + casa).removeClass("movimento_peca");
+        }
+        for (var atk in alcanceAtaque) {
+            var casa = "casa_" + alcanceAtaque[atk].altura + "_" + alcanceAtaque[atk].largura;
+            $("#" + casa).removeClass("ataque_peca");
+        }
+    }
+
+    function aplicaClassesMovimentoAtaque(alcanceAtaque, alcanceMovimento) {
+        for (var mov in alcanceMovimento) {
+            var casa = "casa_" + alcanceMovimento[mov].altura + "_" + alcanceMovimento[mov].largura;
+            $("#" + casa).addClass("movimento_peca");
+        }
+        for (var atk in alcanceAtaque) {
+            var casa = "casa_" + alcanceAtaque[atk].altura + "_" + alcanceAtaque[atk].largura;
+            $("#" + casa).addClass("ataque_peca");
+        }
+    }
+
+    function retornaLetraPorIndex(index) {
+        switch (index) {
+            case "0":
+                return 'A';
+                break;
+            case "1":
+                return 'B';
+                break;
+            case "2":
+                return 'C';
+                break;
+            case "3":
+                return 'D';
+                break;
+            case "4":
+                return 'E';
+                break;
+            case "5":
+                return 'F';
+                break;
+            case "6":
+                return 'G';
+                break;
+            case "7":
+                return 'H';
+                break;
+        }
+    }
+
+    function converteCasa(casa) {
+        var altura = casa.split("_")[1];
+        var largura = casa.split("_")[2];
+        altura = retornaLetraPorIndex(altura);
+        largura = parseInt(largura) + 1;
+        return altura + largura;
+    }
+
+    MontarTabuleiro = function(batalhaParam) {
         pecasNoTabuleiro = [];
         var batalha = batalhaParam;
         var pecas = batalha.Tabuleiro.ElementosDoExercito
@@ -171,14 +339,16 @@ $(function () {
         }
         $("#tabuleiro").empty();
         var i;
+        $("#tabuleiro").append("<div class='header-top'><div class='space'></div><div class='casa-h'>1</div><div class='casa-h'>2</div><div class='casa-h'>3</div><div class='casa-h'>4</div><div class='casa-h'>5</div><div class='casa-h'>6</div><div class='casa-h'>7</div><div class='casa-h'>8</div></div>");
         for (i = 0; i < batalha.Tabuleiro.Altura; i++) {
             $("#tabuleiro").append("<div id='linha_" + i.toString() + "' class='linha' >");
+            $("#linha_" + i.toString()).append("<div class='casa-l'>" + retornaLetraPorIndex(i.toString()) + "</div>");
             pecasNoTabuleiro[i] = [];
             for (j = 0; j < batalha.Tabuleiro.Largura; j++) {
                 var nome_casa = "casa_" + i.toString() + "_" + j.toString();
                 var classe = (i % 2 == 0 ? (j % 2 == 0 ? "casa_branca" : "casa_preta") : (j % 2 != 0 ? "casa_branca" : "casa_preta"));
                 $("#linha_" + i.toString()).append("<div id='" + nome_casa + "' class='casa " + classe + "' />");
-   
+                
                 for (x = 0; x < pecas.length; x++) {
                     if (pecas[x].Saude <= 0) {
                         continue;
@@ -196,18 +366,18 @@ $(function () {
 
                     }                    
                 }
-
             }
         }
         $(".casa").click(function () {
             //Retirando a seleção da casa antiga.
             $("#" + casa_selecionada).removeClass("casa_selecionada");
+            removeClassesMovimentoAtaque(alcanceAtaque, alcanceMovimento);
             //Obtendo o Id.
             casa_selecionada = $(this).attr("id");
             //Adicionando Vermelho na Casa nova.
             $("#" + casa_selecionada).addClass("casa_selecionada");
             //Legenda que mostra informações da casa selecionada.
-            $("#info_casa_selecionada").text(casa_selecionada);
+            $("#info_casa_selecionada").text(converteCasa(casa_selecionada));
             var altura = casa_selecionada.split("_")[1];
             var largura = casa_selecionada.split("_")[2];
             
@@ -222,14 +392,12 @@ $(function () {
                     //Guardar a peça selecionada.
                     pecaElem = document.getElementById(peca_selecionadaId);
                     pecaSelecionadaObj = pecasNoTabuleiro[altura][largura];
-                    var alcanceMovimento = retornaAlcanceMovimento(pecasNoTabuleiro, altura, largura, pecaSelecionadaObj);
-                    for (var mov in alcanceMovimento) {
-                        var casa = "casa_" + alcanceMovimento[mov].altura + "_" + alcanceMovimento[mov].largura;
-                        $("#" + casa).addClass("movimento_peca");
-                    }
+                    alcanceMovimento = retornaAlcanceMovimento(pecasNoTabuleiro, altura, largura, pecaSelecionadaObj);
+                    alcanceAtaque = retornaAlcanceAtaque(pecasNoTabuleiro, altura, largura, pecaSelecionadaObj);
+                    aplicaClassesMovimentoAtaque(alcanceAtaque, alcanceMovimento);
                 }
                 //Legenda que mostra informações da peça selecionada.
-                var msgPecaSelecionada = peca_selecionadaId.toString();
+                var msgPecaSelecionada = converteCasa(casa_selecionada);
                 if (pecaSelecionadaObj) msgPecaSelecionada += " | Saúde: " + pecaSelecionadaObj.Saude;
                 $("#info_peca_selecionada").text(msgPecaSelecionada);
             } else {
@@ -281,6 +449,7 @@ $(function () {
             if (token) {
                 headers.Authorization = token;
             }
+            $("#interceptor").removeClass("hide");
             $.ajax({
                 type: 'POST',
                 url: baseUrl + "/api/Batalhas/Jogar",
@@ -290,11 +459,14 @@ $(function () {
                 .done(
                 function (data) {
                     MontarTabuleiro(data);
+                    $("#interceptor").addClass("hide");
+                    //$("#msgInterceptor").text("Carregou");
                 }
                 )
                 .fail(
                 function (jqXHR, textStatus) {
                     alert("Código de Erro: " + jqXHR.status + "\n\n" + jqXHR.responseText);
+                    $("#interceptor").addClass("hide");
                 });
         }
 
@@ -307,8 +479,6 @@ $(function () {
             //pecaElem = null para não mover a peça no novo clique.
             posNova.classList.remove("casa_selecionada")
         }
-
-        
     }   
 
     

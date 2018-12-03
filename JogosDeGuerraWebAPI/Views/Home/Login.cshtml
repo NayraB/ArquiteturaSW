@@ -49,8 +49,7 @@
     <script type="text/javascript">
         $("#email").text(sessionStorage.getItem("emailUsuario"));
         function showError(jqXHR) {
-
-            alert("Olá Erro!");
+            $("#interceptor").addClass("hide");
             var response = jqXHR.responseJSON;
             console.log(response);
             if (response) {
@@ -82,6 +81,7 @@
                 username: document.getElementById("loginEmail").value,
                 password: document.getElementById("loginPassword").value
             };
+            $("#interceptor").removeClass("hide");
             $.ajax({
                 type: 'POST',
                 url: baseUrl + '/Token',
@@ -91,6 +91,7 @@
                 sessionStorage.setItem('accessToken', data.token_type + " " + data.access_token);
                 sessionStorage.setItem('emailUsuario', data.userName);
                 $("#email").text(sessionStorage.getItem("emailUsuario"));
+                $("#interceptor").addClass("hide");
                 window.location.href = baseUrl + "/BatalhasMVC/Index";
             }).fail(showError);
         }

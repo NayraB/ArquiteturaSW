@@ -1,6 +1,6 @@
 ﻿#tabuleiro {
-    width: 562.8px;
-    height: 562.8px;
+    width: 582.8px;
+    height: 582.8px;
     border: solid 1px;
 }
 
@@ -41,4 +41,36 @@
 
 .ataque_peca {
     background-color: #FF0000;
+}
+
+.header-top {
+    height: 20px;
+}
+
+.casa-h {
+    float: left;
+    width: 70px;
+    height: 20px;
+    text-align: center;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.casa-l {
+    float: left;
+    width: 20px;
+    height: 70px;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+    padding-top: 23px;
+}
+
+.space {
+    float: left;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
 }

@@ -3,7 +3,7 @@ namespace JogosDeGuerraModel.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _1 : DbMigration
+    public partial class _0212 : DbMigration
     {
         public override void Up()
         {
@@ -53,6 +53,7 @@ namespace JogosDeGuerraModel.Migrations
                         ExercitoPretoId = c.Int(),
                         VencedorId = c.Int(),
                         TurnoId = c.Int(),
+                        UltimoMovimento = c.DateTime(nullable: false),
                         Estado = c.Int(nullable: false),
                         Usuario_Id = c.Int(),
                     })

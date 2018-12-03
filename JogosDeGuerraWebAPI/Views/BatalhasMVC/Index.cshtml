@@ -4,88 +4,171 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Batalhas</h2>
-
-<p>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNovaBatalha">Nova Batalha</button>
-</p>
-<table class="table">
-    @*Header*@
-    <tr>
-        <th>
-            Exercito Branco
-        </th>
-        <th>
-            Exercito Preto
-        </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.Tabuleiro.Id)
-            </th>*@
-        <th>
-            Turno
-        </th>
-        <th>
-            Vencedor
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExercitoBranco.Usuario.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExercitoPreto.Usuario.Email)
-            </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Tabuleiro.Id)
-                </td>*@
-            <td>
-                @if (item.Turno == null)
-                {
-                    @Html.Label("-")
-                }
-                else if (item.TurnoId == item.ExercitoBrancoId)
-                {
-                    @Html.Label("Exercito Branco")
-                }
-                else if (item.TurnoId != item.ExercitoBrancoId)
-                {
-                    @Html.Label("Exercito Preto")
-                }
-            </td>
-            <td>
-                @*O vencedor só pode aparecer se o estado da partida for 'Finalizado'*@
-                @if (item.Vencedor != null)
-                {
-                    @Html.DisplayFor(modelItem => item.Vencedor.Usuario.Email)
-                }
-                else
-                {
-                    @Html.Label("-")
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @if (item.ExercitoBranco != null && item.ExercitoPreto != null)
-                {
-                    @Html.ActionLink("Iniciar Batalha", "Tabuleiro", "BatalhasMVC", new { Id = item.Id }, null) 
-                }
-                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-            </td>
-        </tr>
+<style>
+    .text-center {
+        text-align: center;
     }
 
-</table>
+    .fundo-claro {
+        background-color: #c6c6c6;
+        border: 1px solid #909090;
+        border-radius: 5px;
+        padding: 13px 0px;
+    }
 
+    .fundo-escuro {
+        background-color: #989898;
+        border: 1px solid #737373;
+        border-radius: 5px;
+        padding: 13px 0px;
+    }
+
+    .p-25 {
+        padding: 25px;
+    }
+
+    .m-10 {
+        margin: 10px;
+    }
+    .h-411 {
+        height: 411px;
+    }
+</style>
+<div>
+    <h2>Batalhas</h2>
+
+    <p>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNovaBatalha">Nova Batalha</button>
+    </p>
+    <div class="row">
+        @foreach (var item in Model)
+    {
+            <div class="col-xs-4">
+                <div class="m-10 text-center fundo-claro p-25 h-411">
+                    <div class="row text-center">
+                        <div class="col-xs-6 text-center" id="exercitoBranco">
+                            <div class="fundo-escuro">
+                                <div class="text-center">@item.ExercitoBranco.Nacao</div>
+                                <div class="text-center">
+                                    @if (item.ExercitoBranco.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.Nordico)
+                                {
+                                        <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroNordicoBranco.png" />
+                                }
+                                else if (item.ExercitoBranco.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.Persia)
+                                {
+                                        <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroPersaBranco.png" />
+                                }
+                                else if (item.ExercitoBranco.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.India)
+                                {
+                                        <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroIndianoBranco.png" />
+                                }
+                                else if (item.ExercitoBranco.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.Egito)
+                                {
+                                        <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroEgipcioBranco.png" />
+                                }
+                                else
+                                {
+                                        <img style="width: 100px; height: 100px;" />
+                                }
+
+                                </div>
+                                <div class="text-center"><label>Exercito Branco</label></div>
+                                <div class="text-center">@Html.DisplayFor(modelItem => item.ExercitoBranco.Usuario.Email)</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <div class="fundo-escuro" id="exercitoPreto">
+                                <div class="text-center">
+                                    @if (item.ExercitoPreto != null)
+                                {
+                                        @Html.DisplayFor(modelItem => item.ExercitoPreto.Nacao)
+                                }
+                                else
+                                {
+                                        <span>-</span>
+                                }
+                                </div>
+                                <div class="text-center">
+                                    @if (item.ExercitoPreto != null)
+                                {
+                                    if (item.ExercitoPreto.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.Nordico)
+                                    {
+                                            <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroNordicoPreto.png" />
+                                    }
+                                    else if (item.ExercitoPreto.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.Persia)
+                                    {
+                                            <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroPersaPreto.png" />
+                                    }
+                                    else if (item.ExercitoPreto.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.India)
+                                    {
+                                            <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroIndianoPreto.png" />
+                                    }
+                                    else if (item.ExercitoPreto.Nacao == JogosDeGuerraModel.AbstractFactoryExercito.Nacao.Egito)
+                                    {
+                                            <img style="width: 100px; height: 100px;" src="~/Images/GuerreiroEgipcioPreto.png" />
+                                        }
+                                    }
+                                else
+                                {
+                                        <div style="width: 100px; height: 100px;" />
+                                }
+                                </div>
+                                <div class="text-center"><label>Exercito Preto</label></div>
+                                <div class="text-center">
+                                    @if (item.ExercitoPreto != null)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.ExercitoPreto.Usuario.Email)
+                                }
+                                else
+                                {
+                                        <span>-</span>
+                                }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (item.ExercitoBranco != null && item.ExercitoPreto != null)
+                {
+                        <hr />
+                        <div class="row text-center" id="turno">
+                            <div class="col-xs-12">
+                                <label>Turno: </label>
+                                @if (item.Turno == null)
+                            {
+                                    @Html.Label("-")
+                            }
+                            else if (item.TurnoId == item.ExercitoBrancoId)
+                            {
+                                    @Html.Label("Exercito Branco")
+                            }
+                            else if (item.TurnoId != item.ExercitoBrancoId)
+                            {
+                                    @Html.Label("Exercito Preto")
+                            }
+                            </div>
+                        </div>
+                        <div class="text-center" id="estado"><label>Estado:</label> @item.Estado</div>
+                        <div class="text-center" id="win">
+                            <label>Vencedor:</label>
+                            @if (item.Vencedor != null)
+                        {
+                                @Html.DisplayFor(modelItem => item.Vencedor.Usuario.Email)
+                        }
+                        else
+                        {
+                                @Html.Label("-")
+                        }
+                        </div>
+                        <div class="text-center" id="btn">
+                            @Html.ActionLink("Iniciar Batalha", "Tabuleiro", "BatalhasMVC", new { Id = item.Id }, new { @class = "btn btn-lg btn-primary" })
+                        </div>
+                }
+                </div>
+            </div>
+
+    }
+    </div>
+</div>
 <div class="modal fade" id="modalNovaBatalha" role="dialog">
     <div class="modal-dialog">
 
@@ -122,8 +205,7 @@
     <script type="text/javascript">
         $("#email").text(sessionStorage.getItem("emailUsuario"));
         function showError(jqXHR) {
-
-            alert("Olá Erro!");
+            $("#interceptor").addClass("hide");
             var response = jqXHR.responseJSON;
             if (response) {
                 if (response.Message) self.errors.push(response.Message);
@@ -158,14 +240,14 @@
             var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=1";
             var nacao = document.querySelector('input[name="Nacao"]:checked').value;
             if (nacao) {
-                alert(nacao);
                 var urlNovaBatalha = baseUrl + '/api/Batalhas/CriarNovaBatalha?Nacao=' + nacao;
+                $("#interceptor").removeClass("hide");
                 $.ajax({
                     type: 'GET',
                     url: urlNovaBatalha,
                     headers: headers
                 }).done(function (data) {
-                    alert("Criada com Sucesso!");
+                    $("#interceptor").addClass("hide");
                     location.reload();
                 }).fail(showError);
             } else {

@@ -88,9 +88,26 @@ namespace JogosDeGuerraWebAPI.Controllers
                     ? batalha.ExercitoPreto :
                     batalha.ExercitoBranco;
                 batalha.Estado = Batalha.EstadoBatalhaEnum.Iniciado;
+                batalha.UltimoMovimento = DateTime.Now;
             }
             ctx.SaveChanges();
             return batalha;
+        }
+
+        [Route("VerificaAtualizacao")]
+        [HttpGet]
+        public bool VerificaAtualizacao(int idBatalha, DateTime data)
+        {
+            var batalha = ctx.Batalhas.FirstOrDefault(x => x.Id == idBatalha);
+            if(batalha != null)
+            {
+                if(DateTime.Compare(data, batalha.UltimoMovimento) == 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return true;
         }
 
         [Route("Jogar")]
@@ -137,6 +154,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                         throw new HttpResponseException(resp);
                     }
                     batalha.Turno = null;
+                    batalha.UltimoMovimento = DateTime.Now;
                     batalha.TurnoId = batalha.TurnoId == batalha.ExercitoBrancoId ?
                         batalha.ExercitoPretoId : batalha.ExercitoBrancoId;
                     ctx.SaveChanges();
@@ -188,10 +206,12 @@ namespace JogosDeGuerraWebAPI.Controllers
             if (batalha == null)
             {
                 batalha = new Batalha();
+                batalha.UltimoMovimento = DateTime.Now;
                 ctx.Batalhas.AddOrUpdate(batalha);
                 ctx.SaveChanges();
             }
             batalha.CriarBatalha(Nacao, usuarioLogado);
+            batalha.UltimoMovimento = DateTime.Now;
             ctx.Batalhas.AddOrUpdate(batalha);
             ctx.SaveChanges();
             //Não iria conseguir os Ids Corretos;

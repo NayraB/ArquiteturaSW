@@ -57,6 +57,7 @@
 @section MeusScripts{
 <script type="text/javascript">
     function showError(jqXHR) {
+        $("#interceptor").addClass("hide");
         var response = jqXHR.responseJSON;
         if (response) {
             if (response.Message) self.errors.push(response.Message);
@@ -93,8 +94,10 @@
             url: baseUrl + '/api/Account/Register',
             data: registerData
         };
+        $("#interceptor").removeClass("hide");
         $.ajax(body).done(function (data) {
             alert("Registrado com Sucesso!");
+            $("#interceptor").addClass("hide");
             window.location.href = baseUrl + "/Home/Login";
         }).fail(showError);
     }
