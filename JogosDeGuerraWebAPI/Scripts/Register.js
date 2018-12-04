@@ -1,5 +1,6 @@
 ﻿function showError(jqXHR) {
     $("#interceptor").addClass("hide");
+    
     var response = jqXHR.responseJSON;
     if (response) {
         if (response.Message) self.errors.push(response.Message);
